@@ -67,9 +67,3 @@ int open_system();
  * This function will fail if the disk is already opened.
  */
 int close_system();
-
-int make_dir();
-
-int make_file();
-
-int copy_file();
