@@ -2,6 +2,9 @@
 #define INODENUM 32
 #define BLOCKNUM 128
 
+
+char current_path[256];
+
 /**
  * 超级块
  **/

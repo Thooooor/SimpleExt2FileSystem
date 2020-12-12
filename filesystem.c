@@ -17,7 +17,7 @@ int init_system() {
 }
 
 int open_system() {
-    if (!open_disk()) {
+    if (open_disk()<0) {
         printf("Open disk error.\n");
         return -1;
     }
