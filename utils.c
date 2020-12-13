@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <ctype.h>
 
-void my_itoa(int n, char* s, int format) {
+void my_itoa(int n, char* s) {
     char temp[10];
     int i, j, sign;
     i = 0;
 
     do {
-        temp[i++] = n % format + '0';
-    } while ((n /= format) > 0);
+        temp[i++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
     
     j = 0;
     while (i) {

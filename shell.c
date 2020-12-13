@@ -79,6 +79,6 @@ char* skip_space(char* s) {
 }
 
 void shutdown() {
-    printf("Thanks for using ^_^.\n");
+    if (close_system()) printf("Thanks for using ^_^\n");
     exit(0);
 }

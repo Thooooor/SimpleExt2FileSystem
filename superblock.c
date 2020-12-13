@@ -19,19 +19,18 @@ int init_sp_block(sp_block *spb) {
 
 int write_sp_block(sp_block *spb) {
     char buf[DEVICE_BLOCK_SIZE];
-    my_itoa(spb->magic_num, &buf[MAGICINDEX], 16);
-    my_itoa(spb->free_block_count, &buf[BLOCKINDEX], 10);
-    my_itoa(spb->free_inode_count, &buf[INODEINDEX], 10);
-    my_itoa(spb->dir_inode_count, &buf[DIRINDEX], 10);
+    my_itoa(spb->magic_num, &buf[MAGICINDEX]);
+    my_itoa(spb->free_block_count, &buf[BLOCKINDEX]);
+    my_itoa(spb->free_inode_count, &buf[INODEINDEX]);
+    my_itoa(spb->dir_inode_count, &buf[DIRINDEX]);
     for (int i = 0; i < BLOCKNUM; i++) {
-        my_itoa(spb->block_map[i], &buf[BLOCKMAPINDEX+i], 10);
+        my_itoa(spb->block_map[i], &buf[BLOCKMAPINDEX+i]);
     }
     for (int i = 0; i < INODENUM; i++) {
-        my_itoa(spb->inode_map[i], &buf[INODEMAPINDEX+i], 10);
+        my_itoa(spb->inode_map[i], &buf[INODEMAPINDEX+i]);
     }
 
     if (disk_write_block(0, buf) < 0) return 0;
-    printf("%s\n", buf);
     return 1;
 }
 

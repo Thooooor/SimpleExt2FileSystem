@@ -22,7 +22,6 @@ int open_system() {
     }
     if (read_sp_block(&spb) && spb.magic_num == MAGICNUM) {
         printf("Find existed Ext2. Enjoy your Burger.\n");
-        close_disk();
         return -1;
     } else {
         printf("File System Unkonwn or didn't exist. Format disk and build a burger file system.\n");
@@ -36,12 +35,12 @@ int close_system() {
         printf("Save super bolck failed.\n");
         return -1;
     }
+    printf("Save super bolck Suceeded.\n");
 
     if (close_disk() < 0) {
         printf("Close disk failed.\n");
+        return -1;
     }
 
-    printf("Hoped you enjoyed your burger. See you.\n");
     return 1;
-    
 }

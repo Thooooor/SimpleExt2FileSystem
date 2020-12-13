@@ -14,7 +14,7 @@ gcc shell.c filesystem.c superblock.c disk.c utils.c -o main
 ### 2. file system
 相关功能：
 1. 初始化文件系统`init_system`
-2. 打开文件系统`ope_system`
+2. 打开文件系统`open_system`
 3. 关闭文件系统`close_system`
 
 ### 3. super block
