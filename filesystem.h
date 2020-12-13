@@ -1,3 +1,6 @@
+#ifndef FILESYSTEM_H
+#define FILESYSTEM_H
+
 #define MAGICNUM 0xABCD
 #define INODENUM 32
 #define BLOCKNUM 128
@@ -70,3 +73,4 @@ int open_system();
  * This function will fail if the disk is already opened.
  */
 int close_system();
+#endif

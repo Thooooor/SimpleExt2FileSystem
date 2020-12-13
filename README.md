@@ -1,3 +1,9 @@
+run with
+```shell
+gcc shell.c filesystem.c superblock.c disk.c -o main
+./main
+```
+
 ## 模块
 ### 1. disk
 

@@ -3,10 +3,10 @@
 #include <string.h>
 #include <ctype.h>
 #include "shell.h"
-
+#include "filesystem.h"
 
 int main() {
-
+    open_system();
     printf("Welcome to FileSystem shell.\n");
     while(1) {
         printf(">_> ");

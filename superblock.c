@@ -17,12 +17,12 @@ int init_sp_block(sp_block *spb) {
 
 int write_sp_block(sp_block *spb) {
     char buf[DEVICE_BLOCK_SIZE];
-    itoa(spb->magic_num, &buf[0]);
-    itoa(spb->free_block_count, &buf[1]);
-    itoa(spb->free_inode_count, &buf[2]);
-    itoa(spb->dir_inode_count, &buf[3]);
+    // itoa(spb->magic_num, &buf[0]);
+    // itoa(spb->free_block_count, &buf[1]);
+    // itoa(spb->free_inode_count, &buf[2]);
+    // itoa(spb->dir_inode_count, &buf[3]);
     for (int i = 0; i < BLOCKNUM; i++) {
-        itoa(spb->block_map[i], &buf[4+i]);
+        // itoa(spb->block_map[i], &buf[4+i]);
     }
     for (int i = 0; i < INODENUM; i++) {
 
