@@ -1,6 +1,9 @@
-run with
+# SimpleExt2FileSystem
+HITsz OS操作系统实验5：实现简单的Ext2文件系统
+
+run with:
 ```shell
-gcc shell.c filesystem.c superblock.c disk.c -o main
+gcc shell.c filesystem.c superblock.c disk.c utils.c -o main
 ./main
 ```
 
