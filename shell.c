@@ -6,8 +6,12 @@
 #include "filesystem.h"
 
 int main() {
-    open_system();
     printf("Welcome to FileSystem shell.\n");
+    if (!open_system()) {
+        printf("Failed to open FileSystem.\n");
+        shutdown();
+    } 
+
     while(1) {
         printf(">_> ");
         fgets(buf, SHELLBUFF, stdin);

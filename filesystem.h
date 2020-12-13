@@ -1,10 +1,9 @@
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
 
-#define MAGICNUM 0xABCD
+#define MAGICNUM 1234
 #define INODENUM 32
 #define BLOCKNUM 128
-
 
 char current_path[256];
 
@@ -20,7 +19,7 @@ typedef struct super_block
     unsigned int block_map[BLOCKNUM];
     unsigned int inode_map[INODENUM];
 } sp_block;
-
+sp_block spb;
 
 struct inode
 {
@@ -73,4 +72,5 @@ int open_system();
  * This function will fail if the disk is already opened.
  */
 int close_system();
+
 #endif
