@@ -71,6 +71,12 @@ void run() {
 
 void help() {
     printf("command:\n");
+    printf("ls <dir path>\n");
+    printf("touch <file path>\n");
+    printf("cp <dst path> <src path>\n");
+    printf("mkdir <dir path>\n");
+    printf("shutdown\n");
+    printf("help\n");
 }
 
 char* skip_space(char* s) {
