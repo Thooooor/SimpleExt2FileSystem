@@ -1,11 +1,11 @@
-#include "inode.h"
 #include "disk.h"
 #include "utils.h"
 #include "superblock.h"
+#include "inode.h"
 #include <stdio.h>
 
 int init_inode(struct inode* node, int size, int type, int link) {
-    if (!check_inode()) return 0;
+    // if (!check_inode()) return 0;
     if (!alloc_block(BLOCKSIZE)) return 0;
     node->size = 0;
     node->link = 1;
@@ -30,7 +30,7 @@ int write_inode(struct inode* node, int block_num) {
     for (int i = 0; i < BLOCKSIZE; i++) {
         my_itoa(node->block_point[i], &buf[3+i]);
     }
-    if (disk_write_block(block_num, buf)) return 0;
+    if (disk_write_block(block_num, buf) < 0) return 0;
     return 1;
 }
 
@@ -48,11 +48,12 @@ int read_inode(struct inode* node, int block_num) {
 }
 
 int check_inode() {
-    sp_block sp;
+    struct super_block sp;
     if (!read_sp_block(&sp)) return 0;
-
+    printf("Inode read:\n");
+    print_sp_block(&sp);
     if (!sp.free_inode_count) {
-        printf("No enough inode memory.\n");
+        printf("No enough memory for inode.\n");
         return 0;
     }
 

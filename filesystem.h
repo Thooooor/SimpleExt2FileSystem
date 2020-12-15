@@ -1,33 +1,18 @@
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
 
-#define MAGICNUM 1234
-#define INODENUM 32
-#define BLOCKNUM 128
+#include "inode.h"
+#include "superblock.h"
+
+#define INODE0 1
 
 char current_path[256];
 
-/**
- * 超级块
- **/
-typedef struct super_block
-{
-    int magic_num;
-    int free_block_count;
-    int free_inode_count;
-    int dir_inode_count;
-    unsigned int block_map[BLOCKNUM];
-    unsigned int inode_map[INODENUM];
-} sp_block;
-sp_block spb;
 
-struct inode
-{
-    unsigned int size;
-    unsigned int file_type;
-    unsigned int link;
-    unsigned int block_point[6];
-};
+struct super_block spb;
+
+struct inode inode[INODENUM];
+
 
 struct dir_item
 {

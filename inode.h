@@ -1,11 +1,18 @@
 #ifndef INODE_H
 #define INODE_H
-#include "filesystem.h"
 
-#define FILE 1
-#define DIR 2
+#define File 1
+#define Dir 2
 #define BLOCKSIZE 6
 #define NODESIZE 12
+
+struct inode
+{
+    unsigned int size;
+    unsigned int file_type;
+    unsigned int link;
+    unsigned int block_point[6];
+};
 
 // 1: succeeded 0:failed
 int init_inode(struct inode* node, int size, int type, int link);
