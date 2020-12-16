@@ -6,7 +6,7 @@
 
 int init_inode(struct inode* node, int size, int type, int link) {
     // if (!check_inode()) return 0;
-    if (!alloc_block(BLOCKSIZE)) return 0;
+    // if (!alloc_block(BLOCKSIZE)) return 0;
     node->size = 0;
     node->link = 1;
     node->file_type = type;

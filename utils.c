@@ -21,8 +21,13 @@ void my_itoa(int n, char* s) {
 
 int my_atoi(char* s, int length) {
     int i, n;
-    
-    for(n=0; isdigit(s[i]) && i < length; i++) n = 10 * n + (s[i] - '0');
+    for(n=0, i=0; isdigit(s[i]) && i < length; i++) n = 10 * n + (s[i] - '0');
     
     return n;
+}
+
+void init_buf(char* buf, int size) {
+    for (int i = 0; i < size; i++) {
+        buf[i] = '0';
+    }
 }

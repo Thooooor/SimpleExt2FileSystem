@@ -19,6 +19,7 @@ int init_sp_block(struct super_block *spb) {
 
 int write_sp_block(struct super_block *spb) {
     char buf[DEVICE_BLOCK_SIZE];
+    init_buf(buf, DEVICE_BLOCK_SIZE);
     my_itoa(spb->magic_num, &buf[MAGICINDEX]);
     my_itoa(spb->free_block_count, &buf[BLOCKINDEX]);
     my_itoa(spb->free_inode_count, &buf[INODEINDEX]);
@@ -31,7 +32,7 @@ int write_sp_block(struct super_block *spb) {
     }
 
     if (disk_write_block(0, buf) < 0) return 0;
-    printf("%s\n", buf);
+
     return 1;
 }
 
@@ -41,8 +42,7 @@ int read_sp_block(struct super_block *spb) {
         printf("Read from disk failed.\n");
         return 0;
     }
-    // printf("%s\n", buf);
-    spb->magic_num = my_atoi(&buf[MAGICINDEX], 4);
+    spb->magic_num = my_atoi(&buf[MAGICINDEX], 6);
     spb->free_block_count = my_atoi(&buf[BLOCKINDEX], 4);
     spb->free_inode_count = my_atoi(&buf[INODEINDEX], 4);
     spb->dir_inode_count = my_atoi(&buf[DIRINDEX], 4);
@@ -52,7 +52,6 @@ int read_sp_block(struct super_block *spb) {
     for (int i = 0; i < INODENUM; i++) {
         spb->inode_map[i] = my_atoi(&buf[INODEMAPINDEX+i], 1);
     }
-
     return 1;
 }
 
