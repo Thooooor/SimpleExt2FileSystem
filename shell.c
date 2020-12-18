@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include "shell.h"
 #include "filesystem.h"
+#include "dir.h"
 
 int main() {
     printf("Welcome to FileSystem shell.\n");
@@ -55,7 +56,19 @@ void run() {
             printf("\n");
         }
     } else if (!strcmp(command, "mkdir")) {
-        printf("command: mkdir");
+        printf("command: mkdir ");
+        if (argc > 2) {
+            printf("\ntoo mant arguments for 'mkdir'\n");
+        } else if (argc == 2) {
+            printf("%s\n", argv[1]);
+            if (!make_dir("", argv[1])) {
+                printf("make dir failed.\n");
+            } else {
+                printf("make dir %s succeeded.\n", argv[1]);
+            }
+        } else {
+            printf("\ntoo few arguments for 'mkdir'\n");
+        }
     } else if (!strcmp(command, "touch")) {
         printf("command: touch");
     } else if (!strcmp(command, "cp")) {

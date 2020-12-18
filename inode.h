@@ -27,6 +27,4 @@ int read_inode(struct inode* node, int index);
 
 int check_inode();
 
-int alloc_block(int n);
-
 #endif

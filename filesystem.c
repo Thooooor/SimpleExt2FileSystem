@@ -2,6 +2,7 @@
 #include "disk.h"
 #include "superblock.h"
 #include "inode.h"
+#include "dir.h" 
 #include <stdio.h>
 
 
@@ -21,6 +22,10 @@ int init_system() {
             printf("Write Inode failed.\n");
             return -1;
         }
+    }
+    if (!init_root_dir()) {
+        printf("Initial root failde.\n");
+        return 0;
     }
     printf("Initial super bolck succeded. Enjoy your time.\n");
     return 1;

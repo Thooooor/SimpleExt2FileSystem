@@ -11,8 +11,10 @@
 #define BLOCKMAPINDEX 22
 #define INODEMAPINDEX 150
 #define SUPERBLOCKSIZE 182
-#define INODENUM 11
-#define BLOCKNUM 64
+#define INODENUM 1024
+#define BLOCKNUM 2048
+#define INODEMAP 32
+#define BLOCKMAP 64
 
 /**
  * 超级块
@@ -23,8 +25,8 @@ struct super_block
     int32_t free_block_count;
     int32_t free_inode_count;
     int32_t dir_inode_count;
-    uint32_t block_map[BLOCKNUM];
-    uint32_t inode_map[INODENUM];
+    uint32_t block_map[BLOCKMAP];
+    uint32_t inode_map[INODEMAP];
 };
 
 int init_sp_block(struct super_block *spb);
@@ -35,7 +37,7 @@ int read_sp_block(struct super_block *spb);
 
 void print_sp_block(struct super_block *spb);
 
-int alloc_block(int n);
+int alloc_block();
 
 int alloc_inode();
 

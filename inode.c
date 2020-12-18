@@ -5,11 +5,12 @@
 #include <stdio.h>
 
 int init_inode(struct inode* node, int size, int type, int link) {
-    // if (!check_inode()) return 0;
-    // if (!alloc_block(BLOCKSIZE)) return 0;
     node->size = 0;
     node->link = 0;
     node->file_type = type;
+    for (int i = 0; i < 6; i++) {
+        node->block_point[i] = -1;
+    }
     return 1;
 }
 
@@ -56,6 +57,5 @@ int check_inode() {
         printf("No enough memory for inode.\n");
         return 0;
     }
-
     return 1;
 }

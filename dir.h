@@ -12,10 +12,12 @@ struct dir_item
     char name[121];
 };
 
-int make_dir();
+int make_dir(char* path, char* name);
 
 int init_dir_item(struct dir_item* item, int inode_id, int valid, int type, char* name);
 
 int init_root_dir();
+
+int write_dir_item(struct dir_item* item, int block_num);
 
 #endif

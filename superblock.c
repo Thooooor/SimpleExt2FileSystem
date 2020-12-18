@@ -9,10 +9,10 @@ int init_sp_block(struct super_block *spb) {
     spb->free_block_count = BLOCKNUM;
     spb->free_inode_count = INODENUM;
     spb->dir_inode_count = 0;
-    for (int i = 0; i < BLOCKNUM; i++) {
+    for (int i = 0; i < BLOCKMAP; i++) {
         spb->block_map[i] = 0;
     }
-    for (int i = 0; i < INODENUM; i++) {
+    for (int i = 0; i < INODEMAP; i++) {
         spb->inode_map[i] = 0;
     }
 }
@@ -24,10 +24,10 @@ int write_sp_block(struct super_block *spb) {
     my_itoa(spb->free_block_count, &buf[BLOCKINDEX]);
     my_itoa(spb->free_inode_count, &buf[INODEINDEX]);
     my_itoa(spb->dir_inode_count, &buf[DIRINDEX]);
-    for (int i = 0; i < BLOCKNUM; i++) {
+    for (int i = 0; i < BLOCKMAP; i++) {
         my_itoa(spb->block_map[i], &buf[BLOCKMAPINDEX+i]);
     }
-    for (int i = 0; i < INODENUM; i++) {
+    for (int i = 0; i < INODEMAP; i++) {
         my_itoa(spb->inode_map[i], &buf[INODEMAPINDEX+i]);
     }
 
@@ -46,10 +46,10 @@ int read_sp_block(struct super_block *spb) {
     spb->free_block_count = my_atoi(&buf[BLOCKINDEX], 4);
     spb->free_inode_count = my_atoi(&buf[INODEINDEX], 4);
     spb->dir_inode_count = my_atoi(&buf[DIRINDEX], 4);
-    for (int i = 0; i < BLOCKNUM; i++) {
+    for (int i = 0; i < BLOCKMAP; i++) {
         spb->block_map[i] = my_atoi(&buf[BLOCKMAPINDEX+i], 1);
     }
-    for (int i = 0; i < INODENUM; i++) {
+    for (int i = 0; i < INODEMAP; i++) {
         spb->inode_map[i] = my_atoi(&buf[INODEMAPINDEX+i], 1);
     }
     return 1;
@@ -62,29 +62,39 @@ void print_sp_block(struct super_block *spb) {
     printf("dir inode count: %d\n", spb->dir_inode_count);
 }
 
-int alloc_block(int n) {
-    struct super_block sp;
-    if (!read_sp_block(&sp)) return 0;
+int alloc_block() {
+    struct super_block spb;
+    if (!read_sp_block(&spb)) return 0;
+    if (!spb.free_block_count) return -1;
 
     for (int i = 0; i < BLOCKNUM; i++) {
-        if (!sp.block_map[i]) return i;
+        uint32_t block = spb.block_map[i];
+        for (int j = 0; j < 32; j++) {
+            if ((block >> j) & 1) continue;
+            else {
+                spb.free_block_count--;
+                spb.block_map[i] &= 1 << j;
+                write_sp_block(&spb);
+                return i*INODENUM + j;
+            }
+        }
     }
     return -1;
 }
 
 int alloc_inode() {
     struct super_block spb;
-    read_sp_block(&spb);
-    if (!spb.free_inode_count) {
-        return -1;
-    }
+    if (!read_sp_block(&spb)) return -1;
+    if (!spb.free_inode_count) return -1;
 
     for (int i = 0; i < INODENUM; i++) {
         uint32_t inode = spb.inode_map[i];
         for (int j = 0; j < 32; j++) {
             if ((inode >> j) & 1) continue;
             else {
-                
+                spb.free_inode_count--;
+                spb.inode_map[i] &= 1 << j;
+                write_sp_block(&spb);
                 return i*INODENUM + j;
             }
         }
