@@ -71,3 +71,23 @@ int alloc_block(int n) {
     }
     return -1;
 }
+
+int alloc_inode() {
+    struct super_block spb;
+    read_sp_block(&spb);
+    if (!spb.free_inode_count) {
+        return -1;
+    }
+
+    for (int i = 0; i < INODENUM; i++) {
+        uint32_t inode = spb.inode_map[i];
+        for (int j = 0; j < 32; j++) {
+            if ((inode >> j) & 1) continue;
+            else {
+                
+                return i*INODENUM + j;
+            }
+        }
+    }
+    return -1;
+}

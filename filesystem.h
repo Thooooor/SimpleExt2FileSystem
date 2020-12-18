@@ -14,14 +14,6 @@ struct super_block spb;
 struct inode inode[INODENUM];
 
 
-struct dir_item
-{
-    unsigned int inode_id;
-    unsigned int valid;
-    unsigned int type;
-    char name[121];
-};
-
 /**
  * @brief initial Ext2 file system
  * 

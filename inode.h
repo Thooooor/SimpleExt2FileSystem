@@ -6,12 +6,14 @@
 #define BLOCKSIZE 6
 #define NODESIZE 12
 
+#include <inttypes.h>
+
 struct inode
 {
-    unsigned int size;
-    unsigned int file_type;
-    unsigned int link;
-    unsigned int block_point[6];
+    uint32_t size;
+    uint16_t file_type;
+    uint16_t link;
+    uint32_t block_point[6];
 };
 
 // 1: succeeded 0:failed

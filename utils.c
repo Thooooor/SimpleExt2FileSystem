@@ -31,3 +31,9 @@ void init_buf(char* buf, int size) {
         buf[i] = '0';
     }
 }
+
+void my_copy_string(char* a, char* b) {
+    for (int i = 0; a[i] != '\0'; i++) {
+        b[i] = a[i];
+    }
+}
