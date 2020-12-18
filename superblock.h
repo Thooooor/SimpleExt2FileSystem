@@ -29,13 +29,15 @@ struct super_block
     uint32_t inode_map[INODEMAP];
 };
 
-int init_sp_block(struct super_block *spb);
+struct super_block spb;
 
-int write_sp_block(struct super_block *spb);
+int init_sp_block();
 
-int read_sp_block(struct super_block *spb);
+int write_sp_block();
 
-void print_sp_block(struct super_block *spb);
+int read_sp_block();
+
+void print_sp_block();
 
 int alloc_block();
 

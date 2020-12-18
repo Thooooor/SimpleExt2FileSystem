@@ -2,22 +2,43 @@
 #include "disk.h"
 #include "inode.h"
 #include "utils.h"
+#include <stdio.h>
 
 
-int make_dir(char* path, char* name) {
+int make_dir(char* argv) {
+    char name[121];
+    char path[121][121];
+    int num = get_path_and_name(argv, path);
+    for (int i = 0; path[num-1][i] != '\0'; i++) {
+        name[i] = path[num-1][i];
+    }
+    num--;
+
     struct inode node;
-    if (!init_inode(&node, 0, Dir, 1)) return 0;
+    if (!init_inode(&node, 0, Dir, 1)) {
+        printf("initial inode failed.\n");
+        return 0;
+    }
 
     int inode_index = alloc_inode();
-    if (inode_index < 0) return 0;
+    if (inode_index < 0) {
+        printf("alloc inode failed.\n");
+        return 0;
+    }
 
     int block_index = alloc_block();
-    if (block_index < 0) return 0;
+    if (block_index < 0) {
+        printf("alloc block failed.\n");
+        return 0;
+    }
     node.block_point[0] = block_index;
     node.size++;
 
     struct dir_item item;
-    if (!init_dir_item(&item, inode_index, 1, Dir, name)) return 0;
+    if (!init_dir_item(&item, inode_index, 1, Dir, name)) {
+        printf("initial dir item failed.\n");
+        return 0;
+    }
 
     if (!write_dir_item(&item, block_index)) return 0;
     if (!write_inode(&node, inode_index+INODE0)) return 0;
@@ -34,7 +55,7 @@ int init_dir_item(struct dir_item* item, int inode_id, int valid, int type, char
 }
 
 int init_root_dir() {
-    if (!make_dir("", "root")) return 0;
+    if (!make_dir(".")) return 0;
     return 1;
 }
 

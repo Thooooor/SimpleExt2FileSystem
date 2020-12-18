@@ -5,6 +5,8 @@
 #include "shell.h"
 #include "filesystem.h"
 #include "dir.h"
+#include "utils.h"
+
 
 int main() {
     printf("Welcome to FileSystem shell.\n");
@@ -61,7 +63,8 @@ void run() {
             printf("\ntoo mant arguments for 'mkdir'\n");
         } else if (argc == 2) {
             printf("%s\n", argv[1]);
-            if (!make_dir("", argv[1])) {
+        
+            if (!make_dir(argv[1])) {
                 printf("make dir failed.\n");
             } else {
                 printf("make dir %s succeeded.\n", argv[1]);
@@ -90,11 +93,6 @@ void help() {
     printf("mkdir <dir path>\n");
     printf("shutdown\n");
     printf("help\n");
-}
-
-char* skip_space(char* s) {
-    while (isspace(*s)) s++;
-    return s;
 }
 
 void shutdown() {

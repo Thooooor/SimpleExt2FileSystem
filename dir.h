@@ -12,7 +12,7 @@ struct dir_item
     char name[121];
 };
 
-int make_dir(char* path, char* name);
+int make_dir(char* path);
 
 int init_dir_item(struct dir_item* item, int inode_id, int valid, int type, char* name);
 

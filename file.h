@@ -4,7 +4,7 @@
 #include "filesystem.h"
 
 
-int make_file();
+int make_file(char* argv);
 
 int copy_file();
 

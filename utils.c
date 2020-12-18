@@ -37,3 +37,34 @@ void my_copy_string(char* a, char* b) {
         b[i] = a[i];
     }
 }
+
+char* skip_space(char* s) {
+    while (isspace(*s)) s++;
+    return s;
+}
+
+int get_path_and_name(char* input, char (*path)[121]) {
+    int cnt = 0;
+    if (input[0] == '.') input++;
+    if (input[0] != '/') {
+        for (int i = 0; input[0] != '/' && input[0] != '\0'; i++, input++) {
+            path[cnt][i] = input[0];
+        }
+        cnt++;
+    }
+    
+    for (int i = 0; input[i] != '\0'; i++) {
+        if (input[i] == '/') {
+            i++;
+            int j = 0;
+            while (input[i+j] != '/' && input[i+j] != '\0') {
+                path[cnt][j] = input[i+j];
+                j++;
+            }
+            path[cnt][j] = '\0';
+            cnt++;
+            i += j - 1;
+        }
+    }
+    return cnt;
+}

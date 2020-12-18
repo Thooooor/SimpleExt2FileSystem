@@ -9,6 +9,5 @@ char buf[SHELLBUFF];
 void split();
 void run();
 void help();
-char* skip_space(char *s);
 void shutdown();
 #endif
