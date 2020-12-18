@@ -48,4 +48,11 @@ int open_system();
  */
 int close_system();
 
+void mkdir(char* argv[], int argc);
+
+void touch(char* argv[], int argc);
+
+void ls(char* argv[], int argc);
+
+void cp(char* argv[], int argc);
 #endif

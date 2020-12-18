@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include "shell.h"
 #include "filesystem.h"
-#include "dir.h"
 #include "utils.h"
 
 
@@ -48,41 +47,14 @@ void split() {
 
 void run() {
     char* command = argv[0];
-    if (!strcmp(command, "ls")) {
-        printf("command: ls ");
-        if (argc > 2) {
-            printf("\nToo many arguments for 'ls'\n");
-        } else if (argc == 2) {
-            printf("%s\n", argv[1]);
-        } else {
-            printf("\n");
-        }
-    } else if (!strcmp(command, "mkdir")) {
-        printf("command: mkdir ");
-        if (argc > 2) {
-            printf("\ntoo mant arguments for 'mkdir'\n");
-        } else if (argc == 2) {
-            printf("%s\n", argv[1]);
-        
-            if (!make_dir(argv[1])) {
-                printf("make dir failed.\n");
-            } else {
-                printf("make dir %s succeeded.\n", argv[1]);
-            }
-        } else {
-            printf("\ntoo few arguments for 'mkdir'\n");
-        }
-    } else if (!strcmp(command, "touch")) {
-        printf("command: touch");
-    } else if (!strcmp(command, "cp")) {
-        printf("command: cp");
-    } else if (!strcmp(command, "shutdown")) {
-        shutdown();
-    } else if (!strcmp(command, "help")) {
-        help();
-    } else {
-        printf("'%s': command not found.\nSee \'help\'\n", command);
-    }
+
+    if (!strcmp(command, "ls")) ls(argv, argc);
+    else if (!strcmp(command, "mkdir")) mkdir(argv, argc); 
+    else if (!strcmp(command, "touch")) touch(argv, argc);
+    else if (!strcmp(command, "cp")) cp(argv, argc);
+    else if (!strcmp(command, "shutdown")) shutdown();
+    else if (!strcmp(command, "help")) help();
+    else printf("'%s': command not found.\nSee \'help\'\n", command);
 }
 
 void help() {

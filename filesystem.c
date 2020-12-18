@@ -3,6 +3,7 @@
 #include "superblock.h"
 #include "inode.h"
 #include "dir.h" 
+#include "file.h"
 #include <stdio.h>
 
 
@@ -65,4 +66,50 @@ int close_system() {
         return -1;
     }
     return 1;
+}
+
+void mkdir(char* argv[], int argc) {
+    printf("command: mkdir ");
+    if (argc > 2) {
+        printf("\ntoo mant arguments for 'mkdir'\n");
+    } else if (argc == 2) {
+        printf("%s\n", argv[1]);
+        if (!make_dir(argv[1])) {
+            printf("make dir failed.\n");
+        } else {
+            printf("make dir %s succeeded.\n", argv[1]);
+        }
+    } else {
+        printf("\ntoo few arguments for 'mkdir'\n");
+    }
+}
+
+void touch(char* argv[], int argc) {
+    printf("command: touch ");
+    if (argc > 2) printf("\ntoo many arguments for 'touch'\n");
+    else if (argc == 2) {
+        printf("%s\n", argv[1]);
+        if (make_file(argv[1])) {
+            printf("touch %s succeeded.\n", argv[1]);
+        } else {
+            printf("touch %s failed\n", argv[1]);
+        }
+    } else {
+        printf("\ntoo few arguments for 'touch'\n");
+    }
+}
+
+void ls(char* argv[], int argc) {
+    printf("command: ls ");
+    if (argc > 2) {
+        printf("\nToo many arguments for 'ls'\n");
+    } else if (argc == 2) {
+        printf("%s\n", argv[1]);
+    } else {
+        printf("\n");
+    }
+}
+
+void cp(char* argv[], int argc) {
+
 }
