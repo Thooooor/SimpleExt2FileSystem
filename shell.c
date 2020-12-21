@@ -12,7 +12,7 @@ int main() {
     if (!open_system()) {
         printf("Failed to open FileSystem.\n");
         shutdown();
-    } 
+    }
 
     while(1) {
         printf(">_> ");

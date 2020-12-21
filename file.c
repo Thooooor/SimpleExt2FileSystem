@@ -2,12 +2,13 @@
 #include "disk.h"
 #include "utils.h"
 #include "inode.h"
+#include "dir.h"
 #include <stdio.h>
 
 int make_file(char* argv) {
     char name[121];
-    char path[121][121];
-    int num = get_path_and_name(argv, path);
+    char* path[NAMESIZE];
+    int num = get_path_and_name(argv, path, name);
     for (int i = 0; path[num-1][i] != '\0'; i++) {
         name[i] = path[num-1][i];
     }
@@ -33,7 +34,7 @@ int make_file(char* argv) {
     node.block_point[0] = block_index;
     node.size++;
 
-    if (!write_inode(&node, inode_index+INODE0)) return 0;
+    if (!write_inode(&node, inode_index)) return 0;
 
     return 1;
 }

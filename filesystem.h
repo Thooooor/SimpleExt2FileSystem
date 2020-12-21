@@ -4,12 +4,9 @@
 #include "inode.h"
 #include "superblock.h"
 
-#define INODE0 1
-#define BLOCK0 13
-
 char current_path[256];
 struct super_block spb;
-struct inode inode[INODENUM];
+struct inode inode[INODE_NUM];
 
 
 /**

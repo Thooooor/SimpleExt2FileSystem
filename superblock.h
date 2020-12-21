@@ -11,10 +11,17 @@
 #define BLOCKMAPINDEX 22
 #define INODEMAPINDEX 320
 #define SUPERBLOCKSIZE 182
-#define INODENUM 1024
-#define BLOCKNUM 2048
+#define INODE_NUM 1024
+#define BLOCK_NUM 2048
 #define INODEMAP 32
 #define BLOCKMAP 128
+
+#define DISK_START 0
+#define DISK_SIZE 2
+#define INODE_START 2
+#define INODE_SIZE 64
+#define BLOCK_START 66
+#define BLOCK_SIZE 4096
 
 /**
  * 超级块

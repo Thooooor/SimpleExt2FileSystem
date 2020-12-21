@@ -6,8 +6,8 @@
 
 int init_sp_block() {
     spb.magic_num = MAGICNUM;
-    spb.free_block_count = BLOCKNUM;
-    spb.free_inode_count = INODENUM;
+    spb.free_block_count = BLOCK_NUM;
+    spb.free_inode_count = INODE_NUM;
     spb.dir_inode_count = 0;
     for (int i = 0; i < BLOCKMAP; i++) {
         spb.block_map[i] = 0;
@@ -23,12 +23,17 @@ int write_sp_block() {
     for (int i = 0; i < sizeof(spb); i++) buf[i] = spb_point[i];
 
     if (disk_write_block(0, buf) < 0) return 0;
+    if (disk_write_block(1, &buf[DEVICE_BLOCK_SIZE]) < 0) return 0;
     return 1;
 }
 
 int read_sp_block() {
     char buf[DEVICE_BLOCK_SIZE*2];
     if (disk_read_block(0, buf) < 0) {
+        printf("Read from disk failed.\n");
+        return 0;
+    }
+    if (disk_read_block(1, &buf[DEVICE_BLOCK_SIZE]) < 0) {
         printf("Read from disk failed.\n");
         return 0;
     }
