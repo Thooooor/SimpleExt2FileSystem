@@ -25,7 +25,7 @@ int copy_inode(struct inode* a, struct inode* b) {
 
 int write_inode(struct inode* node, int index) {
     int block_num = INODE_START + index / INODE_PER_BLOCK;
-    int inode_start = SINGLE_INODE * index % INODE_PER_BLOCK;
+    int inode_start = SINGLE_INODE * (index % INODE_PER_BLOCK);
 
     char buf[DEVICE_BLOCK_SIZE];
     if (disk_read_block(block_num, buf) < 0) return 0;
@@ -40,7 +40,7 @@ int write_inode(struct inode* node, int index) {
 
 int read_inode(struct inode* node, int index) {
     int block_num = INODE_START + index / INODE_PER_BLOCK;
-    int inode_start = SINGLE_INODE * index % INODE_PER_BLOCK;
+    int inode_start = SINGLE_INODE * (index % INODE_PER_BLOCK);
 
     char buf[DEVICE_BLOCK_SIZE];
     if (disk_read_block(block_num, buf)) return 0;

@@ -17,7 +17,6 @@ int make_file(char* argv) {
 
     int index = 0;
     for (int i = 0; i < num-1; i++) {
-        index = 0;
         if (!find_dir(&root, cur_path[i], &index)) {
             init_dir(&index);
             insert_dir_item(&root, cur_path[i], File, root_index, index);

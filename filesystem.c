@@ -84,7 +84,6 @@ void mkdir(char* argv[], int argc) {
 }
 
 void touch(char* argv[], int argc) {
-    printf("command: touch ");
     if (argc > 2) printf("\ntoo many arguments for 'touch'\n");
     else if (argc == 2) {
         printf("%s\n", argv[1]);
@@ -99,16 +98,13 @@ void touch(char* argv[], int argc) {
 }
 
 void ls(char* argv[], int argc) {
-    printf("command: ls\n");
     if (argc > 2) {
         printf("\nToo many arguments for 'ls'\n");
     } else if (argc == 2) {
-        printf("1\n");
         list_dir(argv[1]);
     } else {
         struct inode root;
         load_root_dir(&root);
-        print_inode(&root);
         print_dir(&root);
     }
 }

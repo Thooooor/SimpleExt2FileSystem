@@ -15,17 +15,22 @@ int make_dir(char* argv) {
     int root_index = 0;
     load_root_dir(&root);
 
-    for (int i = 0; i < num; i++) {
-        int index = 0;
+    int index = 0;
+    for (int i = 0; i < num-1; i++) {
         if (!find_dir(&root, cur_path[i], &index)) {
             init_dir(&index);
             insert_dir_item(&root, cur_path[i], Dir, root_index, index);
-        } else if (i == num-1) {
-            printf("%s already existed.\n", name);
-            return 0;
         }
         read_inode(&root, index);
         root_index = index;
+    }
+
+    if (!find_dir(&root, name, &index)) {
+        init_dir(&index);
+        insert_dir_item(&root, name, Dir, root_index, index);
+    } else {
+        printf("%s already existed.\n", name);
+        return 0;
     }
     
     return 1;
@@ -43,6 +48,7 @@ int init_dir_item(struct dir_item* item, int inode_id, int valid, int type, char
 int init_dir(int* index) {
     int inode_index = alloc_inode();
     *index = inode_index;
+
     if (inode_index < 0) {
         printf("alloc inode failed.\n");
         return 0;
@@ -62,7 +68,6 @@ int init_dir(int* index) {
 
     node->block_point[0] = block_index;
     node->link = 1;
-    // printf("block: %d\n", block_index);
     node->size += ITEM_SIZE;
 
     struct dir_item items[ITEM_PER_BLOCK];
@@ -153,14 +158,11 @@ int read_dir_item(int block_num, struct dir_item items[]) {
 
 int find_dir(struct inode *dir, char* name, int* index) {
     for (int i = 0; i < dir->link; i++) {
-        if (dir->block_point[i] < 0) continue;
         struct dir_item items[ITEM_PER_BLOCK];
         read_dir_item(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
-            // printf("name: %s\n", items[j].name);
             if (items[j].valid && !strcmp(name, items[j].name) && (items[j].type == Dir)) {
                 *index = items[j].inode_id;
-                // printf("found %s\n", name);
                 return 1;
             }
         }
@@ -173,6 +175,7 @@ int print_dir(struct inode *dir) {
         struct dir_item items[ITEM_PER_BLOCK];
         read_dir_item(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
+            // printf("%d\n", items[j].inode_id);
             if (items[j].valid) {
                 print_dir_item(&items[j]);
             }

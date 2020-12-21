@@ -4,7 +4,6 @@
 #include "inode.h"
 #include "superblock.h"
 
-char current_path[256];
 struct super_block spb;
 struct inode inode[INODE_NUM];
 
