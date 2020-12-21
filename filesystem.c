@@ -70,14 +70,9 @@ int close_system() {
 }
 
 void mkdir(char* argv[], int argc) {
-    for (int i = 0; i < argc; i++) {
-        printf("%s\n", argv[i]);
-    }
-    printf("command: mkdir %d ", argc);
     if (argc > 2) {
         printf("\ntoo mant arguments for 'mkdir'\n");
     } else if (argc == 2) {
-        printf("\n%s\n", argv[1]);
         if (!make_dir(argv[1])) {
             printf("make dir failed.\n");
         } else {
@@ -104,13 +99,16 @@ void touch(char* argv[], int argc) {
 }
 
 void ls(char* argv[], int argc) {
-    printf("command: ls ");
+    printf("command: ls\n");
     if (argc > 2) {
         printf("\nToo many arguments for 'ls'\n");
     } else if (argc == 2) {
         printf("%s\n", argv[1]);
     } else {
-        printf("\n");
+        struct inode root;
+        load_root_dir(&root);
+        print_inode(&root);
+        print_dir(&root);
     }
 }
 

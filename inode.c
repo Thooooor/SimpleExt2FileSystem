@@ -5,11 +5,11 @@
 #include <stdio.h>
 
 int init_inode(struct inode* node, int size, int type, int link) {
-    node->size = 0;
-    node->link = 0;
+    node->size = size;
+    node->link = link;
     node->file_type = type;
     for (int i = 0; i < 6; i++) {
-        node->block_point[i] = -1;
+        node->block_point[i] = 0;
     }
     return 1;
 }
@@ -61,4 +61,15 @@ int check_inode() {
         return 0;
     }
     return 1;
+}
+
+int print_inode(struct inode *node) {
+    printf("size: %d\n", node->size);
+    printf("filetype: ");
+    if (node->file_type == File) printf("File\n");
+    else printf("Dir\n");
+    printf("link: %d\n", node->link);
+    for (int i = 0; i < 6; i++) {
+        printf("block[%d]: %d\n", i, node->block_point[i]);
+    }
 }

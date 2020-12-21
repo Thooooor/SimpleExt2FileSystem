@@ -3,7 +3,7 @@ HITsz OS操作系统实验5：实现简单的Ext2文件系统
 
 run with:
 ```shell
-gcc shell.c filesystem.c superblock.c disk.c utils.c -o main
+gcc disk.c utils.c superblock.c inode.c dir.c file.c filesystem.c shell.c  -o main
 ./main
 ```
 

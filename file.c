@@ -7,12 +7,7 @@
 
 int make_file(char* argv) {
     char name[121];
-    char* path[NAMESIZE];
-    int num = get_path_and_name(argv, path, name);
-    for (int i = 0; path[num-1][i] != '\0'; i++) {
-        name[i] = path[num-1][i];
-    }
-    num--;
+    int num = get_path_and_name(argv, name);
 
     struct inode node;
     if (!init_inode(&node, 0, File, 1)) {

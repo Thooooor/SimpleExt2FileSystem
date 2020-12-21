@@ -61,8 +61,8 @@ int alloc_block() {
             else {
                 spb.free_block_count--;
                 spb.block_map[i] |= 1 << j;
-                // write_sp_block();
-                return i*32 + j;
+                write_sp_block();
+                return (i*32 + j) + BLOCK_START;
             }
         }
     }
@@ -75,14 +75,11 @@ int alloc_inode() {
     for (int i = 0; i < INODEMAP; i++) {
         uint32_t inode = spb.inode_map[i];
         for (int j = 0; j < 32; j++) {
-            printf("i:%d j:%d\n", i, j);
             if ((inode >> j) & 1) continue;
             else {
                 spb.free_inode_count--;
-                printf("before:%d ", spb.inode_map[i]);
                 spb.inode_map[i] |= 1 << j;
-                printf("after:%d\n", spb.inode_map[i]);
-                // write_sp_block();
+                write_sp_block();
                 return i*32 + j;
             }
         }

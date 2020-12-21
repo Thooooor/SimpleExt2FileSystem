@@ -28,4 +28,6 @@ int read_inode(struct inode* node, int index);
 
 int check_inode();
 
+int print_inode(struct inode *node);
+
 #endif

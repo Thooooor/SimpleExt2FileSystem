@@ -43,15 +43,15 @@ char* skip_space(char* s) {
     return s;
 }
 
-int get_path_and_name(char* input, char** path, char* name) {
+int get_path_and_name(char* input, char* name) {
     int cnt = 0;
     if (input[0] == '.') input++;
     if (input[0] != '/') {
          int i = 0;
          for (; input[i] != '/' && input[i] != '\0'; i++) {
-             path[cnt][i] = input[i];
+             cur_path[cnt][i] = input[i];
         }
-        path[cnt][i+1] = '\0';
+        cur_path[cnt][i+1] = '\0';
         input += i;
         cnt++;
     }
@@ -61,17 +61,18 @@ int get_path_and_name(char* input, char** path, char* name) {
             i++;
             int j = 0;
             while (input[i+j] != '/' && input[i+j] != '\0') {
-                path[cnt][j] = input[i+j];
+                cur_path[cnt][j] = input[i+j];
                 j++;
             }
-            path[cnt][j] = '\0';
+            cur_path[cnt][j] = '\0';
             cnt++;
             i += j - 1;
         }
     }
 
-    for (int i = 0; i < cnt; i++) {
-        printf("%s.\n", path[i]);
+    for (int i = 0; cur_path[cnt-1][i] != '\0'; i++) {
+        name[i] = cur_path[cnt-1][i];
     }
+
     return cnt;
 }
