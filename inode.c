@@ -23,28 +23,31 @@ int copy_inode(struct inode* a, struct inode* b) {
     return 1;
 }
 
-int write_inode(struct inode* node, int block_num) {
+int write_inode(struct inode* node, int index) {
+    int block_num = INODE_START + index / INODE_PER_BLOCK;
+    int inode_start = SINGLE_INODE * index % INODE_PER_BLOCK;
+
     char buf[DEVICE_BLOCK_SIZE];
-    my_itoa(node->size, &buf[0]);
-    my_itoa(node->file_type, &buf[1]);
-    my_itoa(node->link, &buf[2]);
-    for (int i = 0; i < BLOCKSIZE; i++) {
-        my_itoa(node->block_point[i], &buf[3+i]);
-    }
+    if (disk_read_block(block_num, buf) < 0) return 0;
+
+    char *node_p = (char *)node;
+    for (int i = 0; i < SINGLE_INODE; i++) buf[inode_start + i] = node_p[i];
+
     if (disk_write_block(block_num, buf) < 0) return 0;
+
     return 1;
 }
 
-int read_inode(struct inode* node, int block_num) {
+int read_inode(struct inode* node, int index) {
+    int block_num = INODE_START + index / INODE_PER_BLOCK;
+    int inode_start = SINGLE_INODE * index % INODE_PER_BLOCK;
+
     char buf[DEVICE_BLOCK_SIZE];
     if (disk_read_block(block_num, buf)) return 0;
-    node->size = my_atoi(&buf[0], 1);
-    node->file_type = my_atoi(&buf[1], 1);
-    node->link = my_atoi(&buf[2], 1);
 
-    for (int i = 0; i < BLOCKSIZE; i++) {
-        node->block_point[i] = my_atoi(&buf[3+i], 1);
-    }
+    char *node_p = (char *)node;
+    for (int i = 0; i < SINGLE_INODE; i++) node_p[i] = buf[inode_start + i];
+
     return 1;
 }
 

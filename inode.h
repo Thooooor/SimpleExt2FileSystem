@@ -1,12 +1,13 @@
 #ifndef INODE_H
 #define INODE_H
 
+#include <inttypes.h>
+
 #define File 1
 #define Dir 2
 #define BLOCKSIZE 6
-#define NODESIZE 12
-
-#include <inttypes.h>
+#define SINGLE_INODE 32
+#define INODE_PER_BLOCK 16
 
 struct inode
 {
