@@ -9,12 +9,12 @@
 #define INODEINDEX 12
 #define DIRINDEX 17
 #define BLOCKMAPINDEX 22
-#define INODEMAPINDEX 150
+#define INODEMAPINDEX 320
 #define SUPERBLOCKSIZE 182
 #define INODENUM 1024
 #define BLOCKNUM 2048
 #define INODEMAP 32
-#define BLOCKMAP 64
+#define BLOCKMAP 128
 
 /**
  * 超级块
