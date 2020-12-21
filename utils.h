@@ -11,4 +11,5 @@ void init_buf(char* buf, int size);
 void my_copy_string(char* a, char* b);
 char* skip_space(char *s);
 int get_path_and_name(char* input, char* name);
+void init_path();
 #endif

@@ -103,7 +103,8 @@ void ls(char* argv[], int argc) {
     if (argc > 2) {
         printf("\nToo many arguments for 'ls'\n");
     } else if (argc == 2) {
-        printf("%s\n", argv[1]);
+        printf("1\n");
+        list_dir(argv[1]);
     } else {
         struct inode root;
         load_root_dir(&root);
@@ -113,5 +114,11 @@ void ls(char* argv[], int argc) {
 }
 
 void cp(char* argv[], int argc) {
-
+    if (argc > 3) {
+        printf("\nToo many arguments for 'cp'\n");
+    } else if (argc == 3) {
+        copy_file(argv[1], argv[2]);
+    } else {
+        printf("\ntoo few arguments for 'cp'\n");
+    }
 }

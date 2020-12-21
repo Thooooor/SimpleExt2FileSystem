@@ -8,20 +8,18 @@
 
 int make_dir(char* argv) {
     char name[NAMESIZE];
+    init_buf(name, NAMESIZE);
     int num = get_path_and_name(argv, name);
-    // printf("num:%d\n", num);
 
     struct inode root;
     int root_index = 0;
     load_root_dir(&root);
-    // print_inode(&root);
-    // print_dir(&root);
 
     for (int i = 0; i < num; i++) {
         int index = 0;
         if (!find_dir(&root, cur_path[i], &index)) {
             init_dir(&index);
-            insert_dir_item(&root, cur_path[i], root_index, index);
+            insert_dir_item(&root, cur_path[i], Dir, root_index, index);
         } else if (i == num-1) {
             printf("%s already existed.\n", name);
             return 0;
@@ -107,14 +105,14 @@ int write_dir_item(struct dir_item items[], int block_num) {
     return 1;
 }
 
-int insert_dir_item(struct inode* dir, char* name, int inode_index, int index) {
+int insert_dir_item(struct inode* dir, char* name, int type, int inode_index, int index) {
     for (int i = 0; i < dir->link; i++) {
         struct dir_item items[ITEM_PER_BLOCK];
         read_dir_item(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
             if (!items[j].valid) {
                 items[j].inode_id = index;
-                items[j].type = Dir;
+                items[j].type = type;
                 items[j].valid = 1;
                 strcpy(items[j].name, name);
                 if (!write_dir_item(items, dir->block_point[i])) return 0;
@@ -160,7 +158,7 @@ int find_dir(struct inode *dir, char* name, int* index) {
         read_dir_item(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
             // printf("name: %s\n", items[j].name);
-            if (items[j].valid && !strcmp(name, items[j].name)) {
+            if (items[j].valid && !strcmp(name, items[j].name) && (items[j].type == Dir)) {
                 *index = items[j].inode_id;
                 // printf("found %s\n", name);
                 return 1;
@@ -188,4 +186,27 @@ int print_dir_item(struct dir_item *item) {
     else printf("dictionary\t");
 
     printf("\n");
+}
+
+int list_dir(char* argv) {
+    char name[NAMESIZE];
+    init_buf(name, NAMESIZE);
+    int num = get_path_and_name(argv, name);
+
+    struct inode root;
+    int root_index = 0;
+    load_root_dir(&root);
+
+    for (int i = 0; i < num; i++) {
+        int index = 0;
+        if (!find_dir(&root, cur_path[i], &index)) {
+            printf("Directionary dosen't exist.\n");
+            return 0;
+        }
+        read_inode(&root, index);
+        root_index = index;
+    }
+    print_dir(&root);
+    
+    return 1;
 }

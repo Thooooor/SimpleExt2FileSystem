@@ -28,7 +28,7 @@ int my_atoi(char* s, int length) {
 
 void init_buf(char* buf, int size) {
     for (int i = 0; i < size; i++) {
-        buf[i] = '0';
+        buf[i] = '\0';
     }
 }
 
@@ -44,6 +44,7 @@ char* skip_space(char* s) {
 }
 
 int get_path_and_name(char* input, char* name) {
+    init_path();
     int cnt = 0;
     if (input[0] == '.') input++;
     if (input[0] != '/') {
@@ -75,4 +76,8 @@ int get_path_and_name(char* input, char* name) {
     }
 
     return cnt;
+}
+
+void init_path() {
+    for (int i = 0; i < NAMESIZE; i++) init_buf(cur_path[i], NAMESIZE);
 }
