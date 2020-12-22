@@ -47,7 +47,7 @@ gcc disk.c utils.c superblock.c inode.c dir.c file.c filesystem.c shell.c  -o ma
 ### 4. inode
 相关功能：
 1. 初始化inode - `init_inode`
-2. 将inode写入磁盘 - 'write_inode'
+2. 将inode写入磁盘 - `write_inode`
 3. 读出inode - `read_inode`
 4. 打印inode信息 - `print_inode`
 
@@ -61,16 +61,16 @@ gcc disk.c utils.c superblock.c inode.c dir.c file.c filesystem.c shell.c  -o ma
 ### 6. dir
 相关功能：
 1. 创建文件夹 - `make_dir`
-2. 查找文件夹
-3. 初始化根目录
-4. 加载根目录
-5. 初始化文件夹
-6. 初始化dir item
-7. 将dir items写入disk
-8. 读出 dir items
-9. 打印文件信息
-10. 打印文件夹信息
-11. 列出指定路径文件夹下文件信息
+2. 查找文件夹 - `find_dir`
+3. 初始化根目录 - `init_root_dir`
+4. 加载根目录 - `read_root_dir`
+5. 初始化文件夹 - `init_dir`
+6. 初始化dir item - `init_dir_item`
+7. 将dir items写入disk - `write_dir_items`
+8. 读出 dir items - `read_dir_items`
+9. 打印文件信息 - `print_dir_item`
+10. 打印文件夹信息 - `print_dir`
+11. 列出指定路径文件夹下文件信息 `list_dir`
 
 ### 7. shell
 相关功能:
