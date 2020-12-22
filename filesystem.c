@@ -9,7 +9,7 @@
 
 int init_system() {
     init_sp_block(&spb);
-    print_sp_block(&spb);
+    // print_sp_block(&spb);
     if (!write_sp_block(&spb)) {
         printf("Initial super bolck failed.\n");
         return -1;
@@ -38,7 +38,7 @@ int open_system() {
         return 0;
     }
     if (read_sp_block(&spb) && spb.magic_num == MAGICNUM) {
-        print_sp_block(&spb);
+        // print_sp_block(&spb);
         for (int i = 0; i < INODE_NUM; i++) {
             if (!read_inode(&inode[i], i)) {
                 printf("Load Inode failed.\n");
@@ -86,7 +86,6 @@ void mkdir(char* argv[], int argc) {
 void touch(char* argv[], int argc) {
     if (argc > 2) printf("\ntoo many arguments for 'touch'\n");
     else if (argc == 2) {
-        printf("%s\n", argv[1]);
         if (make_file(argv[1])) {
             printf("touch %s succeeded.\n", argv[1]);
         } else {
@@ -104,7 +103,7 @@ void ls(char* argv[], int argc) {
         list_dir(argv[1]);
     } else {
         struct inode root;
-        load_root_dir(&root);
+        read_root_dir(&root);
         print_dir(&root);
     }
 }

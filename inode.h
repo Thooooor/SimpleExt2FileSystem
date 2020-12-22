@@ -17,17 +17,32 @@ struct inode
     uint32_t block_point[6];
 };
 
-// 1: succeeded 0:failed
+/**
+ * @brief initial an inode
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int init_inode(struct inode* node, int size, int type, int link);
 
-int copy_inode(struct inode* a, struct inode* b);
-
+/**
+ * @brief write an inode into disk
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int write_inode(struct inode* node, int block);
 
+/**
+ * @brief read an inode from disk
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int read_inode(struct inode* node, int index);
 
-int check_inode();
-
+/**
+ * @brief print inode information
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int print_inode(struct inode *node);
 
 #endif

@@ -13,7 +13,7 @@ int make_file(char* argv) {
 
     struct inode root;
     int root_index = 0;
-    load_root_dir(&root);
+    read_root_dir(&root);
 
     int index = 0;
     for (int i = 0; i < num-1; i++) {
@@ -43,7 +43,7 @@ int copy_file(char* argv1, char* argv2) {
 
     struct inode root;
     int root_index = 0;
-    load_root_dir(&root);
+    read_root_dir(&root);
 
     int index = 0;
     for (int i = 0; i < num-1; i++) {
@@ -70,7 +70,7 @@ int find_file(struct inode *dir, char* name, int* index) {
     for (int i = 0; i < dir->link; i++) {
         if (dir->block_point[i] < 0) continue;
         struct dir_item items[ITEM_PER_BLOCK];
-        read_dir_item(dir->block_point[i], items);
+        read_dir_items(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
             if (items[j].valid && !strcmp(name, items[j].name) && (items[j].type == File)) {
                 *index = items[j].inode_id;

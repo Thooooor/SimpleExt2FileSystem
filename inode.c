@@ -14,15 +14,6 @@ int init_inode(struct inode* node, int size, int type, int link) {
     return 1;
 }
 
-int copy_inode(struct inode* a, struct inode* b) {
-    if (!check_inode()) return 0;
-    if (!alloc_block(BLOCKSIZE)) return 0;
-    b->size = a->size;
-    b->link = b->link;
-    b->file_type = a->file_type;
-    return 1;
-}
-
 int write_inode(struct inode* node, int index) {
     int block_num = INODE_START + index / INODE_PER_BLOCK;
     int inode_start = SINGLE_INODE * (index % INODE_PER_BLOCK);

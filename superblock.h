@@ -4,13 +4,6 @@
 #include <inttypes.h>
 
 #define MAGICNUM 1234
-#define MAGICINDEX 0
-#define BLOCKINDEX 7
-#define INODEINDEX 12
-#define DIRINDEX 17
-#define BLOCKMAPINDEX 22
-#define INODEMAPINDEX 320
-#define SUPERBLOCKSIZE 182
 #define INODE_NUM 1024
 #define BLOCK_NUM 2048
 #define INODEMAP 32
@@ -38,16 +31,44 @@ struct super_block
 
 struct super_block spb;
 
+/**
+ * @brief initial super block
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int init_sp_block();
 
+/**
+ * @brief write super block into disk
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int write_sp_block();
 
+/**
+ * @brief read super block from disk
+ * 
+ * @return returns 1 on success, 0 otherwise. 
+ */
 int read_sp_block();
 
+/**
+ * @brief printsuper block information
+ */
 void print_sp_block();
 
+/**
+ * @brief alloc an empty block
+ * 
+ * @return returns index>=0 on success, -1 otherwise. 
+ */
 int alloc_block();
 
+/**
+ * @brief alloc an empty inode
+ * 
+ * @return returns index >=0 on success, -1 otherwise. 
+ */
 int alloc_inode();
 
 #endif

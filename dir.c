@@ -13,7 +13,7 @@ int make_dir(char* argv) {
 
     struct inode root;
     int root_index = 0;
-    load_root_dir(&root);
+    read_root_dir(&root);
 
     int index = 0;
     for (int i = 0; i < num-1; i++) {
@@ -78,7 +78,7 @@ int init_dir(int* index) {
         }
     }
 
-    if (!write_dir_item(items, block_index)) return 0;
+    if (!write_dir_items(items, block_index)) return 0;
     if (!write_inode(node, inode_index)) return 0;
     if (!write_sp_block()) return 0;
 
@@ -95,12 +95,12 @@ int init_root_dir() {
     return 1;
 }
 
-int load_root_dir(struct inode *root) {
+int read_root_dir(struct inode *root) {
     if (read_inode(root, 0)) return 1;
     return 0;
 }
 
-int write_dir_item(struct dir_item items[], int block_num) {
+int write_dir_items(struct dir_item items[], int block_num) {
     char buf1[DEVICE_BLOCK_SIZE];
     char *item_point = (char *)items;
 
@@ -113,14 +113,14 @@ int write_dir_item(struct dir_item items[], int block_num) {
 int insert_dir_item(struct inode* dir, char* name, int type, int inode_index, int index) {
     for (int i = 0; i < dir->link; i++) {
         struct dir_item items[ITEM_PER_BLOCK];
-        read_dir_item(dir->block_point[i], items);
+        read_dir_items(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
             if (!items[j].valid) {
                 items[j].inode_id = index;
                 items[j].type = type;
                 items[j].valid = 1;
                 strcpy(items[j].name, name);
-                if (!write_dir_item(items, dir->block_point[i])) return 0;
+                if (!write_dir_items(items, dir->block_point[i])) return 0;
                 if (!write_inode(dir, inode_index)) return 0;
                 return 1;
             }
@@ -140,13 +140,13 @@ int insert_dir_item(struct inode* dir, char* name, int type, int inode_index, in
         }
     }
 
-    if (!write_dir_item(items, new_block_index)) return 0;
+    if (!write_dir_items(items, new_block_index)) return 0;
     if (!write_inode(dir, inode_index)) return 0;
 
     return 1;
 }
 
-int read_dir_item(int block_num, struct dir_item items[]) {
+int read_dir_items(int block_num, struct dir_item items[]) {
     char buf1[DEVICE_BLOCK_SIZE];
 
     if (disk_read_block(block_num, buf1) < 0) return 0;
@@ -159,7 +159,7 @@ int read_dir_item(int block_num, struct dir_item items[]) {
 int find_dir(struct inode *dir, char* name, int* index) {
     for (int i = 0; i < dir->link; i++) {
         struct dir_item items[ITEM_PER_BLOCK];
-        read_dir_item(dir->block_point[i], items);
+        read_dir_items(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
             if (items[j].valid && !strcmp(name, items[j].name) && (items[j].type == Dir)) {
                 *index = items[j].inode_id;
@@ -173,9 +173,8 @@ int find_dir(struct inode *dir, char* name, int* index) {
 int print_dir(struct inode *dir) {
     for (int i = 0; i < dir->link; i++) {
         struct dir_item items[ITEM_PER_BLOCK];
-        read_dir_item(dir->block_point[i], items);
+        read_dir_items(dir->block_point[i], items);
         for (int j = 0; j < ITEM_PER_BLOCK; j++) {
-            // printf("%d\n", items[j].inode_id);
             if (items[j].valid) {
                 print_dir_item(&items[j]);
             }
@@ -198,7 +197,7 @@ int list_dir(char* argv) {
 
     struct inode root;
     int root_index = 0;
-    load_root_dir(&root);
+    read_root_dir(&root);
 
     for (int i = 0; i < num; i++) {
         int index = 0;
